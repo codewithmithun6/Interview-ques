@@ -1,0 +1,72 @@
+package practice7;
+
+
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+class  Pair{
+    int first;
+    int second;
+
+    public Pair(int first, int second) {
+        this.first = first;
+        this.second = second;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pair pair = (Pair) o;
+        return first == pair.first && second == pair.second;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(first, second);
+    }
+
+    @Override
+    public String toString() {
+        return "Pair{" +
+                "first=" + first +
+                ", second=" + second +
+                '}';
+    }
+}
+
+
+public class Test2 {
+    public static Set<Pair> findNonRep(int[] arr, int targetSum ){
+
+        Set<Integer> s = new HashSet<>();
+        Set<Pair> pairs = new HashSet<>();
+
+        for(int num: arr){
+            int comp = targetSum-num;
+
+            if(comp != num && s.contains(comp)){
+                Pair pair = new Pair(Math.min(num,comp),Math.max(num,comp));
+                pairs.add(pair);
+            }
+            s.add(num);
+        }
+        return pairs;
+
+    }
+
+
+    public static void main(String[] args) {
+
+        int[] arr = {4,5,9,7,5,9,8,5,1,1}; // non-duplicate pairs from the arr out( 9,1), sum=10 time complexity
+        int sum = 10;
+
+        Set<Pair> results = findNonRep(arr, sum);
+        results.forEach(pair-> System.out.println("("+pair.first +","+pair.second+")"));
+
+
+        }
+
+
+    }
+
